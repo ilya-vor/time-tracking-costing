@@ -6,9 +6,9 @@
 ## Запуск
 
 Требуется Docker с Docker Compose. Один запуск поднимает MongoDB (replica set),
-backend API и фронтенд, и сам наполняет базу тестовыми данными из задания.
+backend API и фронтенд, и сам наполняет базу демо-данными.
 
-1. `git clone <repo> && cd TestCase_TimeTrackingCosting`
+1. `git clone <repo> && cd time-tracking-costing`
 2. `docker compose up --build`
 
 ### Запуск без Docker (для разработки)
@@ -29,7 +29,7 @@ npm install && npm run dev
 Для подключения к MongoDB с хоста нужен `directConnection=true`:
 `ConnectionStrings__Mongo="mongodb://localhost:27017/?replicaSet=rs0&directConnection=true"`.
 
-## Тестовые данные
+## Демо-данные
 
 База заполняется автоматически при старте API, если она пуста.
 Чтобы пересоздать данные с нуля выполните:
@@ -39,7 +39,7 @@ docker compose exec mongo mongosh --quiet --eval "db.getSiblingDB('time_tracking
 docker compose restart api
 ```
 
-Данные из раздела «Приёмочные проверки»: Иванов (500/600 ₽/ч),
+Демо-набор: Иванов (500/600 ₽/ч),
 Петрова (700 ₽/ч), проекты П-001 (20 000 ₽) и П-002 (5 000 ₽), четыре записи
 табеля за февраль–март 2026.
 
@@ -53,7 +53,7 @@ docker compose restart api
 | DELETE | `/api/time-entries/{id}` | удалить запись |
 | GET | `/api/reports/projects` | отчёт по проектам за месяц (`year, month`), агрегация на стороне MongoDB |
 | GET | `/api/employees`, `/api/projects` | справочники |
-| PUT | `/api/employees/{id}/rates` | сменить ставку сотрудника (`from, value`) — нужно для приёмочного сценария 8 |
+| PUT | `/api/employees/{id}/rates` | сменить ставку сотрудника (`from, value`) — нужно для сценария смены ставки |
 | POST | `/api/periods/close`, `/api/periods/open` | закрыть/открыть месяц |
 
 Ошибки бизнес-правил: `400`/`409` с телом `{ "code": "...", "message": "..." }` на русском.
